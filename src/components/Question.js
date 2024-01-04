@@ -44,7 +44,7 @@ const Question = ({data}) => {
         <div className='score'>
           <h2>Quiz End</h2>
           <p>Your Score</p>
-          <p>{score}</p>
+          <p>{score}/10</p>
         </div>
       
       

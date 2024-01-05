@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {useState} from 'react'
 
 const Question = ({data}) => {
 
     const [questionNumber,setquestionNumber]=useState(0);
     const [score,setScore]=useState(0);
+    const [time,setTime]=useState(10);
     // console.log(data)
+   
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setTime((prevTimer) => prevTimer - 1);
+      }, 1000);
+  
+      return () => {
+        clearInterval(interval);
+      };
+    }, []);
+
+    useEffect(() => {
+      if (time === 0) {
+        // Move to the next question when the timer reaches 0
+        setquestionNumber((prevIndex) => prevIndex + 1);
+        setTime(5);
+      }
+    }, [time]);
 
     const handleQuestions=(e)=>{
       console.log(e.target.textContent);
@@ -30,6 +49,8 @@ const Question = ({data}) => {
         <>
             <h1>Questions No:{questionNumber+1} </h1>
             <p>{data[questionNumber].question}</p>
+           <br/>
+           <p>Remaining Time:{time}</p>
             <ul>
               <li onClick={handleQuestions}>{data[questionNumber].answers.answer_a}</li>
               <li onClick={handleQuestions}>{data[questionNumber].answers.answer_b}</li>
